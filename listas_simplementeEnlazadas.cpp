@@ -1,72 +1,87 @@
 #include<iostream>
 using namespace std;
 
-template<typename T = int>
+template<typename T>
 struct Node{
     T cont;
     Node *pProx;
 };
 template<class T>
 class List{
-    Node* pHead;
-    Node* pTail;
-    int Cant;
-public:
-    typedef Node<T>* Position;
-    List();
-    ~List();
-    bool IsEmpty();
-    Position First();
-    Position Last();
-    void Next( &Position Value);
-    void Get( &Position Value);
-    void Insert( &T Nuevo, Position Value);
-    void Delete( Position Value);
-    int Size();
-
+	Node<T>* first;
+	Node<T>* last;
+	Node<T>* aux;
+	public:
+		
+	List();
+	void add(T);
+	void move(int);
+	Node<T> getFirst();
+	void getAllValues();
 };
+template<typename T>
+void List<T>::getAllValues(){
+	if( first == NULL )
+			return;
+	aux = first;
+	while(true){
+		cout << aux -> cont << endl;
+		if ( (*aux).pProx == NULL )
+			break;
+		else
+			aux = (*aux).pProx;
+	}
+}
+template<typename T>
+void List<T>::add(T value){
+	aux = new Node<T>;
+	aux -> cont = value;
+	aux -> pProx = NULL;	
+	if(first == NULL && last == NULL){	
+		first = aux;
+		last = aux;
+	}else{
+		last -> pProx = aux;
+		last = aux;
+	}
+	
+}
+template<typename T>
+Node<T> List<T>::getFirst(){
+	return *first;
+}
+template<typename T>
+List<T>::List(){
+	first = NULL;
+	last = NULL;
+	aux = NULL;
+}
 
+template<typename T>
+void List<T>::move(int cant){
+	for(int i=0;i<cant;i++){
+		last -> pProx = first;
+		last = first;
+		first = first->pProx;
+		last ->pProx = NULL;
+	}
+}
 int main(){
-    Node<> a;
-    a.conta = 12;
-    char b = a.conta;
-    cout << b <<endl;
-
-
-
+	
+	
+	List<int> h;
+	
+	h.add(4);
+	h.add(6);
+	h.add(8);
+	h.add(10);
+	h.add(12);
+	h.add(14);
+	h.getAllValues();
+	cout << "=================== MOVE ==================" << endl;
+	h.move(4);
+	h.getAllValues();
+	//cout << h.getFirst().cont << endl;
     return 0;
 }
-List::List(){
-    Cant = 0;
-    pHead = new Node();
-    pTail = Head;
-    *pHead.pProx = nullptr;
-}
-List::~List(){
-    Node<T>* pTemp;
-    while(pHead != nullptr){
-        pTemp = pHead;
-        pHead = (*pHead).pProx;
-        delete pTemp;
-    }
-}
-List::bool IsEmpty(){
-    return *pHead.pProx == nullptr;
-}
-List::Position First(){
-    return pHead;
-}
-List::Position Last(){
-    return pTail;
-}
-List::void Next( &Position pValue){
-    pValue = *pValue.pProx;
-}
-List::void Get( &Position pValue){
-    *(*pValue.pProx).cont;
-}
-List::void Insert( &T Nuevo, Position pValue){
 
-}
-List::void Delete( Position pValue);
-List::int Size();
